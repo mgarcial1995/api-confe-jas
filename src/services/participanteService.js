@@ -197,7 +197,14 @@ const obtenerParticipante = async (id) => {
 const desactivarParticipante = async (id) => {
   const { data, error } = await supabase
     .from("participante")
-    .update({ estado: 0 })
+    .update({
+      estado: 0,
+      habitacion: null,
+      asistencia: null,
+      id_compania: null,
+      id_habitacion: null,
+      num_compania: null,
+    })
     .eq("id", id)
     .select();
 
