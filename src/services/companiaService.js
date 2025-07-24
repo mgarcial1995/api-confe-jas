@@ -64,7 +64,7 @@ const obtenerCompaniasConParticipantes = async () => {
       participantes:participante ( id, nombres, apellidos )
     `
     )
-    .order("id", { ascending: true });
+    .order("numero_compania", { ascending: true });
 
   if (error) throw error;
   return data;
