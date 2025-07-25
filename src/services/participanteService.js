@@ -3,72 +3,6 @@ const xlsx = require("xlsx");
 const path = require("path");
 const fs = require("fs");
 
-// const cargaMasivaParticipantes = async (rutaArchivo) => {
-//   const headerMap = {
-//     Nombres: "nombres",
-//     Apellidos: "apellidos",
-//     NombrePreferencia: "nombre_preferencia",
-//     Edad: "edad",
-//     Sexo: "sexo",
-//     TallaCamiseta: "talla_camiseta",
-//     Barrio: "barrio",
-//     Estaca: "estaca",
-//     EsMiembro: "es_miembro",
-//     Celular: "celular",
-//   };
-
-//   const workbook = xlsx.readFile(rutaArchivo);
-//   const hoja = workbook.Sheets["Participantes"];
-
-//   const datosBrutos = xlsx.utils.sheet_to_json(hoja);
-
-//   const participantes = datosBrutos.map((fila) => {
-//     const participante = {};
-
-//     for (const key in fila) {
-//       if (headerMap.hasOwnProperty(key)) {
-//         const campo = headerMap[key];
-//         let valor = fila[key];
-
-//         if (campo === "es_miembro") {
-//           const campito = valor?.toString().toLowerCase();
-//           valor =
-//             campito === "si" || campito === "SI" || campito === "Sí"
-//               ? true
-//               : false;
-//         }
-
-//         if (campo === "edad") {
-//           const numero = parseInt(valor);
-//           valor = isNaN(numero) ? null : numero;
-//         }
-
-//         participante[campo] = valor;
-//         participante["estado"] = 1;
-//       }
-//     }
-//     return participante;
-//   });
-
-//   const { data, error } = await supabase
-//     .from("participante")
-//     .insert(participantes);
-
-//   if (error) throw error;
-
-//   fs.unlink(rutaArchivo, (err) => {
-//     if (err) {
-//       console.warn(
-//         `⚠️ No se pudo eliminar el archivo: ${rutaArchivo}`,
-//         err.message
-//       );
-//     } else {
-//       console.log(`🧹 Archivo eliminado: ${rutaArchivo}`);
-//     }
-//   });
-
-//   return participantes;
-// };
 const cargaMasivaParticipantes = async (rutaArchivo) => {
   const headerMap = {
     Nombres: "nombres",
@@ -177,6 +111,7 @@ const obtenerParticipantes = async () => {
       habitacion ( puerta_habitacion )
     `
     )
+    .eq("estado", 1)
     .order("id", { ascending: true });
   return data;
 };
