@@ -60,6 +60,18 @@ const obtenerParticipantes = async (req, res) => {
   }
 };
 
+const exportarParticipantesAExcel = async (req, res) => {
+  try {
+    const buffer = await participanteService.exportarParticipantesAExcel();
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename=participantes.xlsx');
+    res.status(200).send(buffer); // Solo esto, no uses .json después
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const obtenerParticipante = async (req, res) => {
   const { id } = req.params;
   try {
@@ -125,5 +137,6 @@ module.exports = {
   asignarParticipanteAHabitacion,
   asignarParticipanteACompania,
   asistioParticipante,
+  exportarParticipantesAExcel,
   cargarExcelParticipantes,
 };

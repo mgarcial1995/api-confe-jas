@@ -3,6 +3,62 @@ const xlsx = require("xlsx");
 const path = require("path");
 const fs = require("fs");
 
+const exportarParticipantesAExcel = async () => {
+  const { data, error } = await supabase
+    .from("participante")
+    .select(
+      `
+      id,
+      apellidos,
+      nombres,
+      nombre_preferencia,
+      edad,
+      sexo,
+      es_miembro,
+      talla_camiseta,
+      barrio,
+      estaca,
+      celular,
+      num_compania,
+      habitacion ( puerta_habitacion )
+    `
+    )
+    .eq("estado", 1)
+    .order("id", { ascending: true });
+
+  if (error) {
+    throw new Error("Error al obtener participantes: " + error.message);
+  }
+
+  const datosParaExcel = data.map((p) => ({
+    Apellidos: p.apellidos,
+    Nombres: p.nombres,
+    "Nombre Preferencia": p.nombre_preferencia,
+    Edad: p.edad,
+    Sexo: p.sexo,
+    "Es Miembro": p.es_miembro ? "Sí" : "No",
+    "Talla Camiseta": p.talla_camiseta,
+    Barrio: p.barrio,
+    Estaca: p.estaca,
+    Celular: p.celular,
+    "N° Compañía": p.num_compania ?? "",
+    Habitacion: p.habitacion?.puerta_habitacion ?? "Sin asignar",
+  }));
+
+  const worksheet = xlsx.utils.json_to_sheet(datosParaExcel);
+  const workbook = xlsx.utils.book_new();
+  xlsx.utils.book_append_sheet(workbook, worksheet, "Participantes");
+
+  // Aquí se genera el buffer
+  const buffer = xlsx.write(workbook, {
+    type: "buffer",
+    bookType: "xlsx",
+  });
+
+  return buffer;
+};
+
+
 const cargaMasivaParticipantes = async (rutaArchivo) => {
   const headerMap = {
     Nombres: "nombres",
@@ -246,4 +302,5 @@ module.exports = {
   asignarParticipanteACompania,
   asistioParticipante,
   cargaMasivaParticipantes,
+  exportarParticipantesAExcel
 };

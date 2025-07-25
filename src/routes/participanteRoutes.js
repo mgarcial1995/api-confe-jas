@@ -7,6 +7,7 @@ router.post('/crearParticipante', participanteController.crearParticipante);
 router.post('/editarParticipante', participanteController.editarParticipante);
 router.get('/obtenerParticipante/:id', participanteController.obtenerParticipante);
 router.get('/obtenerParticipantes', participanteController.obtenerParticipantes);
+router.get('/exportarParticipantesAExcel', participanteController.exportarParticipantesAExcel);
 router.put('/desactivarParticipante', participanteController.desactivarParticipante);
 router.post('/asignarParticipanteAHabitacion', participanteController.asignarParticipanteAHabitacion);
 router.post('/asignarParticipanteACompania', participanteController.asignarParticipanteACompania);
