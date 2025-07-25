@@ -49,6 +49,7 @@ const obtenerParticipantesNumeroCompania = async (numCompania) => {
   const { data, error } = await supabase
     .from("participante")
     .select("*")
+    .is("habitacion", null)
     .eq("num_compania", numCompania);
 
   if (error) throw error;
