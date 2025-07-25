@@ -45,6 +45,16 @@ const obtenerParticipantesPorNumeroCompania = async (numCompania) => {
   return data;
 };
 
+const obtenerParticipantesNumeroCompania = async (numCompania) => {
+  const { data, error } = await supabase
+    .from("participante")
+    .select("*")
+    .eq("num_compania", numCompania);
+
+  if (error) throw error;
+  return data;
+};
+
 const eliminarCompania = async (id, datos) => {
   const { data, error } = await supabase.from("compania").delete().eq("id", id);
 
@@ -97,6 +107,7 @@ module.exports = {
   obtenerCompanias,
   obtenerCompania,
   eliminarCompania,
+  obtenerParticipantesNumeroCompania,
   obtenerCompaniasConParticipantes,
   obtenerParticipantesPorNumeroCompania,
   obtenerParticipantesPorEdadPorCompania,

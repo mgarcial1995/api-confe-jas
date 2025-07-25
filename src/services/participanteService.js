@@ -111,7 +111,6 @@ const obtenerParticipantes = async () => {
       habitacion ( puerta_habitacion )
     `
     )
-    .eq("estado", 1)
     .order("id", { ascending: true });
   return data;
 };

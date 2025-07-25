@@ -16,6 +16,10 @@ router.get(
   companiaController.obtenerParticipantesPorNumeroCompania
 );
 router.get(
+  "/obtenerParticipantesNumeroCompania/:numCompania",
+  companiaController.obtenerParticipantesNumeroCompania
+);
+router.get(
   "/obtenerParticipantesPorEdadPorCompania/:idCompania",
   companiaController.obtenerParticipantesPorEdadPorCompania
 );

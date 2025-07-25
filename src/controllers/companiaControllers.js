@@ -72,6 +72,17 @@ const obtenerParticipantesPorNumeroCompania = async (req, res) => {
   }
 };
 
+const obtenerParticipantesNumeroCompania = async (req, res) => {
+  const { numCompania } = req.params;
+  try {
+    const participante =
+      await companiaService.obtenerParticipantesNumeroCompania(numCompania);
+    res.status(201).json(participante);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const obtenerParticipantesPorEdadPorCompania = async (req, res) => {
   const { idCompania } = req.params;
   try {
@@ -89,6 +100,7 @@ module.exports = {
   obtenerCompania,
   obtenerCompanias,
   eliminarCompania,
+  obtenerParticipantesNumeroCompania,
   obtenerCompaniasConParticipantes,
   obtenerParticipantesPorNumeroCompania,
   obtenerParticipantesPorEdadPorCompania
