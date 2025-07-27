@@ -72,7 +72,7 @@ const obtenerCompaniasConParticipantes = async () => {
       numero_compania,
       edad_minima,
       edad_maxima,
-      participantes:participante ( id, nombres, apellidos )
+      participantes:participante ( id, nombres, apellidos, edad, sexo )
     `
     )
     .order("numero_compania", { ascending: true });
