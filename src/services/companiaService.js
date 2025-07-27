@@ -72,6 +72,8 @@ const obtenerCompaniasConParticipantes = async () => {
       numero_compania,
       edad_minima,
       edad_maxima,
+      min_cant_participantes,
+      max_cant_participantes,
       participantes:participante ( id, nombres, apellidos, edad, sexo )
     `
     )
