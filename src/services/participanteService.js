@@ -129,12 +129,10 @@ const cargaMasivaParticipantes = async (rutaArchivo) => {
     }
 
     participante["estado"] = 1;
-    participante["rol"] = "Coordinador";
+    // participante["rol"] = "Staff";
 
     return participante;
   });
-
-  console.log('parts', participantes)
 
   const { data, error } = await supabase
     .from("participante")
@@ -197,6 +195,26 @@ const obtenerParticipantes = async () => {
     .order("id", { ascending: true });
   return data;
 };
+
+const limpiarParticipantesSinAsistencia = async () => {
+   const { data, error } = await supabase
+    .from("participante")
+    .update({
+      num_compania: null,
+      habitacion: null,
+      id_compania: null,
+      id_habitacion: null,
+    })
+    .or("asistencia.is.null,asistencia.eq.false"); 
+
+  if (error) {
+    console.error("Error actualizando participantes:", error.message);
+  } else {
+    console.log("Participantes actualizados:", data);
+    return data;
+  }
+};
+
 
 const obtenerParticipante = async (id) => {
   const { data } = await supabase
@@ -330,5 +348,6 @@ module.exports = {
   asignarParticipanteACompania,
   asistioParticipante,
   cargaMasivaParticipantes,
-  exportarParticipantesAExcel
+  exportarParticipantesAExcel,
+  limpiarParticipantesSinAsistencia
 };

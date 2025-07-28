@@ -104,6 +104,16 @@ const desactivarParticipante = async (req, res) => {
   }
 };
 
+const limpiarParticipantesSinAsistencia = async (req, res) => {
+  try {
+    const participante = await participanteService.limpiarParticipantesSinAsistencia(
+    );
+    res.status(201).json(participante);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const asistioParticipante = async (req, res) => {
   const { idParticipante } = req.body;
   try {
@@ -150,4 +160,5 @@ module.exports = {
   asistioParticipante,
   exportarParticipantesAExcel,
   cargarExcelParticipantes,
+  limpiarParticipantesSinAsistencia
 };
