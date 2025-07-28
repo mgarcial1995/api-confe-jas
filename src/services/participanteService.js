@@ -129,6 +129,7 @@ const cargaMasivaParticipantes = async (rutaArchivo) => {
     }
 
     participante["estado"] = 1;
+    participante["rol"] = "Coordinador";
 
     return participante;
   });
