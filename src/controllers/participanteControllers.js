@@ -82,6 +82,16 @@ const obtenerParticipante = async (req, res) => {
   }
 };
 
+const eliminarParticipante = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const participante = await participanteService.eliminarParticipante(id);
+    res.status(201).json(participante);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const desactivarParticipante = async (req, res) => {
   const { idParticipante } = req.body;
   try {
@@ -130,6 +140,7 @@ const cargarExcelParticipantes = async (req, res) => {
 
 module.exports = {
   crearParticipante,
+  eliminarParticipante,
   editarParticipante,
   obtenerParticipante,
   obtenerParticipantes,

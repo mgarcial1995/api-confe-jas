@@ -6,6 +6,7 @@ const upload = require('../utils/upload');
 router.post('/crearParticipante', participanteController.crearParticipante);
 router.post('/editarParticipante', participanteController.editarParticipante);
 router.get('/obtenerParticipante/:id', participanteController.obtenerParticipante);
+router.delete('/eliminarParticipante/:id', participanteController.eliminarParticipante);
 router.get('/obtenerParticipantes', participanteController.obtenerParticipantes);
 router.get('/exportarParticipantesAExcel', participanteController.exportarParticipantesAExcel);
 router.put('/desactivarParticipante', participanteController.desactivarParticipante);

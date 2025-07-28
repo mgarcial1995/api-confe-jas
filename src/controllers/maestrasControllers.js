@@ -1,4 +1,3 @@
-// participanteControllers.js
 const maestroService = require("../services/maestrasService");
 
 const crearEstaca = async (req, res) => {

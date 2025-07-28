@@ -20,6 +20,8 @@ const exportarParticipantesAExcel = async () => {
       estaca,
       celular,
       num_compania,
+      tipo_documento,
+      nro_documento,
       habitacion ( puerta_habitacion )
     `
     )
@@ -41,6 +43,8 @@ const exportarParticipantesAExcel = async () => {
     Barrio: p.barrio,
     Estaca: p.estaca,
     Celular: p.celular,
+    Documento: p.tipo_documento,
+    "Numero de Documento": p.nro_documento,
     "N° Compañía": p.num_compania ?? "",
     Habitacion: p.habitacion?.puerta_habitacion ?? "Sin asignar",
   }));
@@ -71,6 +75,8 @@ const cargaMasivaParticipantes = async (rutaArchivo) => {
     Estaca: "estaca",
     EsMiembro: "es_miembro",
     Celular: "celular",
+    Documento: "tipo_documento",
+    NumeroDocumento: "nro_documento"
   };
 
   const workbook = xlsx.readFile(rutaArchivo);
@@ -85,12 +91,21 @@ const cargaMasivaParticipantes = async (rutaArchivo) => {
       const campo = headerMap[key];
       let valor = fila[key];
 
-      // Si el valor está vacío, ponlo como null o "" según el tipo
       if (valor === undefined || valor === null || valor === "") {
         if (campo === "edad") {
           valor = null;
         } else if (campo === "es_miembro") {
           valor = false;
+        } else if (campo === "nombre_preferencia") {
+          valor = "";
+        } else if (campo === "talla_camiseta") {
+          valor = "";
+        } else if (campo === "barrio") {
+          valor = "";
+        } else if (campo === "celular") {
+          valor = "";
+        } else if (campo === "tipo_documento" || campo === "nro_documento") {
+          valor = "";
         } else {
           valor = "";
         }
@@ -118,13 +133,14 @@ const cargaMasivaParticipantes = async (rutaArchivo) => {
     return participante;
   });
 
+  console.log('parts', participantes)
+
   const { data, error } = await supabase
     .from("participante")
     .insert(participantes);
 
   if (error) throw error;
 
-  // Eliminar archivo al finalizar
   fs.unlink(rutaArchivo, (err) => {
     if (err) {
       console.warn(
@@ -138,6 +154,16 @@ const cargaMasivaParticipantes = async (rutaArchivo) => {
 
   return participantes;
 };
+
+  const eliminarParticipante = async (id) => {
+    const { data, error } = await supabase
+      .from("participante")
+      .delete()
+      .eq("id", id);
+
+    if (error) throw error;
+    return data;
+  };
 
 const crearParticipante = async (body) => {
   const { data, error } = await supabase
@@ -180,7 +206,7 @@ const obtenerParticipante = async (id) => {
       `
     )
     .eq("id", id)
-    .single(); // <- opcional, si solo esperas un resultado
+    .single();
   return data;
 };
 
@@ -293,6 +319,7 @@ const asignarParticipanteACompania = async (idParticipante, idCompania) => {
 };
 
 module.exports = {
+  eliminarParticipante,
   crearParticipante,
   obtenerParticipantes,
   editarParticipante,
